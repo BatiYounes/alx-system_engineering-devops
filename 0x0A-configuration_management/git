@@ -1,0 +1,5 @@
+git add .
+
+git commit -m " doing the task 0x0A config"
+
+git push origin
