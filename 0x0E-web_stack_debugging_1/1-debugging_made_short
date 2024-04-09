@@ -14,6 +14,3 @@ elif /etc/init.d/nginx restart; then
 else
     echo "Failed to restart Nginx. Please restart it manually."
 fi
-
-# Add a new line
-echo
