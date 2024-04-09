@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Bash script that configures Nginx to use the default configuration file
 # Remove the default Nginx configuration file if it exists
 rm -f /etc/nginx/sites-enabled/default
 
@@ -8,13 +9,3 @@ ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Restart Nginx to apply the configuration changes
 /etc/init.d/nginx restart
-
-# Check if Nginx returns a web page and HTTP 200 status on port 80
-nginx_status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost)
-if [ "$nginx_status" = "200" ]; then
-    echo "Nginx returned HTTP 200 status on port 80."
-    exit 1
-else
-    echo "Nginx did not return HTTP 200 status on port 80."
-    exit 0
-fi
