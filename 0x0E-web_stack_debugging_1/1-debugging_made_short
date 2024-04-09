@@ -15,5 +15,5 @@ else
     echo "Failed to restart Nginx. Please restart it manually."
 fi
 
-# Ensure script ends with a newline character
+# Add a new line
 echo
