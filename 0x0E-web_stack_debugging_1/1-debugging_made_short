@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
-
-# Bash script that configures Nginx to use the default configuration file
 # Remove the default Nginx configuration file if it exists
 rm -f /etc/nginx/sites-enabled/default
-
-# Create a symbolic link to the default Nginx configuration file
 ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-
-# Restart Nginx to apply the configuration changes
 /etc/init.d/nginx restart
