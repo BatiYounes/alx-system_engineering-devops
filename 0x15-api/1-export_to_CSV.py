@@ -36,7 +36,7 @@ if __name__ == "__main__":
                              "TASK_TITLE"])
         for task in tasks:
             csv_writer.writerow([employee_id, employee_username,
-                                 str(task.get("completed")), task.get("title")])
+                                str(task.get("completed")), task.get("title")])
 
     print("Number of tasks in CSV: OK")
     print("Data exported to {} successfully.".format(csv_file_name))
