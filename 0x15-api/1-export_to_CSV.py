@@ -2,9 +2,9 @@
 """
 Exports all tasks owned by a specific employee in CSV format.
 
-This script takes an employee ID as a command-line 
+This script takes an employee ID as a command-line
 argument and retrieves all tasks
-associated with that employee from a fake API 
+associated with that employee from a fake API
 It then exports the tasks into a CSV file named after the employee ID.
 
 Usage: python3 script_name.py employee_id
@@ -24,3 +24,4 @@ if __name__ == "__main__":
         csv_w = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
         [csv_w.writerow([_id, employee_username, task.get("completed"),
                          task.get("title")]) for task in tasks]
+	
