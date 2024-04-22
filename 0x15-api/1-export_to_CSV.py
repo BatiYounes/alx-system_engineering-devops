@@ -18,14 +18,6 @@ if __name__ == "__main__":
         print("Error: Employee not found.")
         sys.exit(1)
 
-    # Fetching todos for the employee
-    tasks_response = requests.get(fake_api + "todos",
-                                  params={"userId": employee_id})
-    if tasks_response.status_code != 200:
-        print("Error: Unable to fetch tasks.")
-        sys.exit(1)
-    tasks = tasks_response.json()
-
     employee_username = employee.get("username")
 
     # Writing data to CSV file
@@ -34,6 +26,15 @@ if __name__ == "__main__":
         csv_writer = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
         csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
                              "TASK_TITLE"])
+        
+        # Fetching todos for the employee
+        tasks_response = requests.get(fake_api + "todos",
+                                      params={"userId": employee_id})
+        if tasks_response.status_code != 200:
+            print("Error: Unable to fetch tasks.")
+            sys.exit(1)
+        tasks = tasks_response.json()
+        
         for task in tasks:
             csv_writer.writerow([employee_id, employee_username,
                                 str(task.get("completed")), task.get("title")])
