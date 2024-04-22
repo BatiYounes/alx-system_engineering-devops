@@ -24,4 +24,3 @@ if __name__ == "__main__":
         csv_w = csv.writer(csv_file, quoting=csv.QUOTE_ALL)
         [csv_w.writerow([_id, employee_username, task.get("completed"),
                          task.get("title")]) for task in tasks]
-	
