@@ -1,19 +1,28 @@
 #!/usr/bin/python3
 """
-export all tasks that are owned by this employee in the JSON format.
+Export data in the JSON format
 """
-if __name__ == "__main__":
-    import json
-    import requests
+import json
+import requests
+from sys import argv
 
-    fake_api = "https://jsonplaceholder.typicode.com/"
-    employees = requests.get(fake_api + "users").json()
-    with open("todo_all_employees.json", "w") as json_file:
-        json.dump({
-            user.get("id"): [{"task": task.get("title"),
-                              "completed": task.get("completed"),
-                              "username": user.get("username")
-                              } for task in requests.get(fake_api + "todos",
-                                       params={"userId": user.get("id")}
-                                       ).json()]
-            for user in users}, json_file)
+
+if __name__ == "__main__":
+    user_url = 'https://jsonplaceholder.typicode.com/users'
+    todo_url = 'https://jsonplaceholder.typicode.com/todos'
+    users = requests.get(user_url).json()
+    todos = requests.get(todo_url).json()
+
+    all_data = {}
+    for user in users:
+        user_id = user.get('id')
+        username = user.get('username')
+        tasks = [
+            {"username": username, "task": task.get('title'),
+             "completed": task.get('completed')}
+            for task in todos if task.get('userId') == user_id
+        ]
+        all_data[str(user_id)] = tasks
+
+    with open('todo_all_employees.json', 'w') as json_file:
+        json.dump(all_data, json_file)
