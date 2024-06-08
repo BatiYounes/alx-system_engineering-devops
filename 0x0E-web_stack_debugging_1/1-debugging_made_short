@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# Remove the default Nginx configuration file if it exists
-rm -f /etc/nginx/sites-enabled/default
-ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-/etc/init.d/nginx restart
