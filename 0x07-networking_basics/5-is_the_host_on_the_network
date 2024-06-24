@@ -11,4 +11,4 @@ fi
 IP_ADDRESS=$1
 
 # Ping the IP address 5 times
-ping -c 5 $IP_ADDRESS
+ping -c 5 "$IP_ADDRESS"
