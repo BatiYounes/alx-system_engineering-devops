@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-# Bash script to installs nginx web server service.
-# -y is to skip confirmation.
-apt-get -y update
-apt-get -y install nginx
-ufw allow 'Nginx HTTP'
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
-service nginx start
+
+# Update the package list and install Nginx
+apt-get update -y
+apt-get install nginx -y
+
+# Configure Nginx to serve a custom page
+echo "Hello World!" > /var/www/html/index.html
+
+# Restart Nginx without using systemctl
+service nginx restart
