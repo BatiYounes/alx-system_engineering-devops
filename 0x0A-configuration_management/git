@@ -1,0 +1,5 @@
+git add .
+
+git commit -m "doing the jobs /task of 0x0A-configuration_management"
+
+git push origin
