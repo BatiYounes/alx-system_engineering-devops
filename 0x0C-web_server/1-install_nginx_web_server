@@ -1,11 +1,23 @@
 #!/usr/bin/env bash
+# Bash script to install and configure the Nginx web server.
 
-# Update the package list and install Nginx
-apt-get update -y
-apt-get install nginx -y
+# Exit on any error
+set -e
 
-# Configure Nginx to serve a custom page
-echo "Hello World!" > /var/www/html/index.html
+# Update the package list
+apt-get -y update
 
-# Restart Nginx without using systemctl
+# Install Nginx
+apt-get -y install nginx
+
+# Allow 'Nginx HTTP' through the firewall
+ufw allow 'Nginx HTTP'
+
+# Create a custom HTML file to serve
+echo 'Hello World!' > /var/www/html/index.html
+
+# Start Nginx service (avoid using systemctl)
+service nginx start
+
+# Restart Nginx service to apply changes (avoid using systemctl)
 service nginx restart
