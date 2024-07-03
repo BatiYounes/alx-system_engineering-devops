@@ -1,23 +1,16 @@
 #!/usr/bin/env bash
-# Bash script to install and configure the Nginx web server.
+# This script installs Nginx, configures it to listen on port 80, and sets up a Hello World page.
 
-# Exit on any error
-set -e
+# Update the package list and install Nginx
+apt-get update -y
+apt-get install nginx -y
 
-# Update the package list
-apt-get -y update
+# Configure Nginx to serve a Hello World page
+echo "Hello World!" > /var/www/html/index.html
 
-# Install Nginx
-apt-get -y install nginx
+# Modify the default Nginx site configuration to serve the new index.html
+sed -i 's|root /var/www/html;|root /var/www/html;\n\ttry_files $uri $uri/ =404;|' /etc/nginx/sites-available/default
 
-# Allow 'Nginx HTTP' through the firewall
-ufw allow 'Nginx HTTP'
-
-# Create a custom HTML file to serve
-echo 'Hello World!' > /var/www/html/index.html
-
-# Start Nginx service (avoid using systemctl)
+# Restart Nginx without using systemctl
+service nginx stop
 service nginx start
-
-# Restart Nginx service to apply changes (avoid using systemctl)
-service nginx restart
