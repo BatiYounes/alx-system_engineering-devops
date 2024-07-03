@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Bash script containing commands to automatically configure a Ubuntu machine.
+# Bash script to install and configure Nginx with a 301 redirect
 
 # Update package list and install Nginx
 sudo apt-get update
@@ -9,11 +9,11 @@ sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
 
 # Create the web root directory and set permissions
-mkdir -p /var/www/html/
+sudo mkdir -p /var/www/html/
 sudo chmod -R 755 /var/www
 
 # Create an index.html file with "Hello World!" content
-echo 'Hello World!' > /var/www/html/index.html
+echo 'Hello World!' | sudo tee /var/www/html/index.html
 
 # Create the Nginx server block configuration
 SERVER_CONFIG="server {
@@ -33,11 +33,11 @@ SERVER_CONFIG="server {
 }"
 
 # Write the server block configuration to the default site
-sudo bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default"
+echo "$SERVER_CONFIG" | sudo tee /etc/nginx/sites-available/default > /dev/null
 
 # Check if Nginx is running and restart if necessary
 if [ "$(pgrep -c nginx)" -le 0 ]; then
     sudo service nginx start
 else
-    sudo service nginx restart
+    sudo service nginx reload
 fi
