@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # Installs nginx, then starts and stops it to ensure it's not running
-apt-get update
+apt-get update -y
 apt-get install -y nginx
-service nginx start
-service nginx stop
+nginx && nginx -s stop
