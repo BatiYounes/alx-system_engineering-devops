@@ -2,4 +2,4 @@
 # Installs nginx, then starts and stops it to ensure it's not running
 apt-get update -y
 apt-get install -y nginx
-nginx && nginx -s stop
+service nginx start && service nginx stop
