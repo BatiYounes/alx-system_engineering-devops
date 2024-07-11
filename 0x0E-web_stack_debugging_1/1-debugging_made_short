@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 # Configures nginx and ensures it's not running
-rm /etc/nginx/sites-enabled/default; ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default; service nginx restart; service nginx stop
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart
+kill "$(pgrep 'nginx' | head -1)"
