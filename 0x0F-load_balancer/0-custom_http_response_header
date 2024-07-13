@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# This script configures a brand new Ubuntu machine to have Nginx with a custom HTTP header
+
+# Update the package list and install Nginx
+sudo apt-get update
+sudo apt-get install -y nginx
+
+# Get the hostname of the server
+HOSTNAME=$(hostname)
+
+# Add the custom header to the Nginx configuration
+sudo bash -c "cat << 'EOF' > /etc/nginx/sites-available/default
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+        add_header X-Served-By $HOSTNAME;
+    }
+}
+EOF"
+
+# Restart Nginx to apply the changes
+sudo systemctl restart nginx
