@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# duplicate web-01 to web-02
-# these scripts are an upgrade from the web-server scripts...
+# This script configures a brand new Ubuntu machine to install Nginx and set a custom HTTP response header
 
-# uncomment to see the script run in action
+# Uncomment to see the script run in action
 #set -x
 
 echo -e "Updating and doing some minor checks...\n"
@@ -10,7 +9,6 @@ echo -e "Updating and doing some minor checks...\n"
 function install() {
     command -v "$1" &> /dev/null
 
-    #shellcheck disable=SC2181
     if [ $? -ne 0 ]; then
 	echo -e "Installing: $1\n"
 	sudo apt-get update -y -qq && \
@@ -21,7 +19,8 @@ function install() {
     fi
 }
 
-install nginx # Install nginx
+# Install nginx
+install nginx
 
 echo -e "\nSetting up some minor stuff.\n"
 
@@ -52,33 +51,36 @@ echo "Hello World!" > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /var/www/html/error_404.html
 
 # Backup default server config file
-sudo cp /etc/nginx/sites-enabled/default nginx-sites-enabled_default.backup
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
 
-server_config=\
-	     "server {
-listen 80 default_server;
-listen [::]:80 default_server;
-root /var/www/html;
-index index.html index.htm index.nginx-debian.html;
-server_name _;
-add_header X-Served-By $(hostname);
-location / {
-try_files \$uri \$uri/ =404;
-}
-if (\$request_filename ~ redirect_me) {
-rewrite ^ https://th3-gr00t.tk/ permanent;
-}
-error_page 404 /error_404.html;
-location = /error_404.html {
-internal;
-}
-}"
+# Nginx server configuration with custom header
+server_config=$(cat <<EOF
+ EOF
+		server {
+		    listen 80 default_server;
+		    listen [::]:80 default_server;
+		    root /var/www/html;
+		    index index.html index.htm index.nginx-debian.html;
+		    server_name _;
+		    add_header X-Served-By \$hostname;
+		    location / {
+			try_files \$uri \$uri/ =404;
+		    }
+		    if (\$request_filename ~ redirect_me) {
+			   rewrite ^ https://th3-gr00t.tk/ permanent;
+		       }
+		       error_page 404 /error_404.html;
+		       location = /error_404.html {
+			   internal;
+		       }
+		}
+		EOF
+	     )
 
-#shellcheck disable=SC2154
-echo "$server_config" | sudo dd status=none of=/etc/nginx/sites-enabled/default
+# Write the configuration to the default nginx site
+echo "$server_config" | sudo tee /etc/nginx/sites-available/default > /dev/null
 
-if [ "$(pgrep -c nginx)" -le 0 ]; then
-    sudo service nginx start
-else
-    sudo service nginx restart
-fi
+# Restart nginx to apply changes
+sudo systemctl restart nginx
+
+EOF
