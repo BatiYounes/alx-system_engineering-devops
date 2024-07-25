@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+#setting up the ssh agent
+eval $("ssh-agent")
+
+#path to identification
+ssh-add ~/.ssh/new_key
+
+ssh ubuntu@52.7.166.204
