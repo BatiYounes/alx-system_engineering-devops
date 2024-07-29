@@ -21,14 +21,14 @@ def create_user_tasks(users, todos):
     """Create a dictionary of user tasks."""
     user_tasks = {user['id']: [] for user in users}
     for task in todos:
+        username = next(user['username'] for user in users 
+                        if user['id'] == task['userId'])
         task_data = {
-            'usrnm': next(
-                user['usrnm'] for user in users if user['id'] == task['usrID']
-            ),
+            'username': username,
             'task': task['title'],
             'completed': task['completed']
         }
-        user_tasks[task['usrID']].append(task_data)
+        user_tasks[task['userId']].append(task_data)
 
     return user_tasks
 
