@@ -11,6 +11,12 @@ import sys
 def fetch_user_tasks(user_id):
     """
     Fetches tasks for a given user_id from the JSONPlaceholder API.
+
+    Args:
+        user_id (str): The ID of the user.
+
+    Returns:
+        tuple: A tuple containing the user data (dict) and the user's tasks (list).
     """
     user_url = f'https://jsonplaceholder.typicode.com/users/{user_id}'
     todos_url = f'https://jsonplaceholder.typicode.com/users/{user_id}/todos'
@@ -32,6 +38,10 @@ def export_to_csv(user, todos):
     Exports tasks to a CSV file in the format:
     "USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE"
     The file name must be: USER_ID.csv
+
+    Args:
+        user (dict): The user data.
+        todos (list): The list of tasks.
     """
     user_id = user.get('id')
     username = user.get('username')
@@ -40,7 +50,8 @@ def export_to_csv(user, todos):
     with open(filename, mode='w', newline='') as csvfile:
         csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         for todo in todos:
-            csvwriter.writerow([user_id, username, todo.get('completed'), todo.get('title')])
+            csvwriter.writerow([user_id, username,
+                                todo.get('completed'), todo.get('title')])
 
 
 if __name__ == "__main__":
