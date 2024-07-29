@@ -16,7 +16,7 @@ def fetch_user_tasks(user_id):
         user_id (str): The ID of the user.
 
     Returns:
-        tuple: A tuple containing the user data (dict) and the user's tasks (list).
+        tuple: A tuple containing the user data and the user's tasks (list).
     """
     user_url = f'https://jsonplaceholder.typicode.com/users/{user_id}'
     todos_url = f'https://jsonplaceholder.typicode.com/users/{user_id}/todos'
