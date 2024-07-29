@@ -22,13 +22,13 @@ def create_user_tasks(users, todos):
     user_tasks = {user['id']: [] for user in users}
     for task in todos:
         task_data = {
-            'username': next(
-                user['username'] for user in users if user['id'] == task['userId']
+            'usrnm': next(
+                user['usrnm'] for user in users if user['id'] == task['usrID']
             ),
             'task': task['title'],
             'completed': task['completed']
         }
-        user_tasks[task['userId']].append(task_data)
+        user_tasks[task['usrID']].append(task_data)
 
     return user_tasks
 
