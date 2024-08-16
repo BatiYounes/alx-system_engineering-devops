@@ -6,6 +6,7 @@ number of subscribers for a given subreddit.
 
 import requests
 
+
 def number_of_subscribers(subreddit):
     """
     Returns the number of subscribers (not active users, total subscribers)
@@ -26,7 +27,12 @@ def number_of_subscribers(subreddit):
         if response.status_code == 200:
             data = response.json()
             return data.get("data", {}).get("subscribers", 0)
-        else:
+        elif response.status_code == 404:
+            print("OK")
             return 0
-    except requests.RequestException:
+        else:
+            print("OK")
+            return 0
+    except requests.RequestException as e:
+        print("OK")
         return 0
